@@ -1,0 +1,65 @@
+@if (formulario(); as f) {
+  @if (respostas().length === 0) {
+    <div class="vazio">
+      <p><strong>Ainda não há respostas.</strong></p>
+      <p class="suave">Abra o formulário pelo botão no topo e compartilhe o link.</p>
+    </div>
+  } @else {
+    <section>
+      <h2>Resumo</h2>
+      @for (item of resumo(); track item.pergunta.id; let i = $index) {
+        <article class="item">
+          <h3><span class="suave">{{ i + 1 }}.</span> {{ item.pergunta.titulo }}</h3>
+          <p class="suave contagem">{{ item.respondidas }} de {{ respostas().length }} responderam</p>
+          @if (item.contagens.length > 0) {
+            <ul class="barras">
+              @for (contagem of item.contagens; track contagem.opcao) {
+                <li>
+                  <div class="rotulos">
+                    <span>{{ contagem.opcao }}</span>
+                    <span class="suave">{{ contagem.total }} · {{ contagem.percentual }}%</span>
+                  </div>
+                  <span class="trilho" aria-hidden="true">
+                    <span class="barra" [style.width.%]="contagem.percentual"></span>
+                  </span>
+                </li>
+              }
+            </ul>
+          } @else {
+            <ul class="textos">
+              @for (texto of item.textos; track $index) {
+                <li>{{ texto }}</li>
+              }
+            </ul>
+          }
+        </article>
+      }
+    </section>
+
+    <section>
+      <h2>Todas as respostas</h2>
+      <div class="tabela-rolavel">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Enviada em</th>
+              @for (pergunta of f.perguntas; track pergunta.id) {
+                <th scope="col">{{ pergunta.titulo }}</th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (resposta of respostas(); track resposta.id) {
+              <tr>
+                <td class="data">{{ resposta.enviadaEm | date: 'dd/MM/yyyy HH:mm' }}</td>
+                @for (pergunta of f.perguntas; track pergunta.id) {
+                  <td>{{ formatar(resposta.valores[pergunta.id]) }}</td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  }
+}

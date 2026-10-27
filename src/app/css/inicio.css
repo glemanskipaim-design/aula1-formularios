@@ -1,0 +1,62 @@
+.inicio {
+  max-width: 640px;
+}
+
+h1 {
+  font-size: 1.75rem;
+}
+
+h2 {
+  margin: 2.5rem 0 0.75rem;
+  font-size: 1rem;
+}
+
+.numeros {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 2rem 0 0;
+}
+
+.numeros div {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  background: var(--cor-superficie);
+}
+
+dt {
+  color: var(--cor-texto-suave);
+  font-size: 0.8rem;
+}
+
+dd {
+  margin: 0.2rem 0 0;
+  font-size: 1.9rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.recentes {
+  margin: 0 0 2rem;
+  padding: 0;
+  list-style: none;
+}
+
+.recentes li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--cor-borda);
+  font-size: 0.925rem;
+}
+
+.recentes a {
+  color: var(--cor-texto);
+  text-decoration: none;
+}
+
+.recentes a:hover {
+  color: var(--cor-acento);
+}

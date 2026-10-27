@@ -1,0 +1,121 @@
+<div class="progresso" role="progressbar" aria-label="Progresso do formulário"
+  aria-valuemin="0" aria-valuemax="100" [attr.aria-valuenow]="progresso()">
+  <span [style.width.%]="progresso()"></span>
+</div>
+
+<main class="tela">
+  @if (formulario(); as f) {
+    @if (enviado()) {
+      <section class="etapa centro" #foco tabindex="-1" aria-labelledby="titulo-fim">
+        <span class="selo-ok" aria-hidden="true">✓</span>
+        <h1 id="titulo-fim">Obrigado!</h1>
+        <p class="suave">Sua resposta foi registrada.</p>
+        <div class="acoes">
+          <button type="button" class="btn" (click)="recomecar()">Enviar outra resposta</button>
+          <a class="btn btn-sec" [routerLink]="['/f', f.id]">Ver no painel</a>
+        </div>
+      </section>
+    } @else if (passo() === 0) {
+      <section class="etapa" #foco tabindex="-1" aria-labelledby="titulo-inicio">
+        <h1 id="titulo-inicio" class="titulo-formulario">{{ f.titulo }}</h1>
+        @if (f.descricao) {
+          <p class="suave descricao">{{ f.descricao }}</p>
+        }
+        <p class="suave">{{ total() }} pergunta(s) · leva cerca de {{ total() < 4 ? 1 : 2 }} minuto(s)</p>
+        <div class="navegacao">
+          <button type="button" class="btn grande" (click)="comecar()">Começar</button>
+          <span class="dica suave">ou pressione <kbd>Enter ↵</kbd></span>
+        </div>
+      </section>
+    } @else {
+      @for (p of perguntaAtual(); track p.id) {
+        <section class="etapa" #foco tabindex="-1" [attr.aria-labelledby]="'pergunta-' + p.id">
+          <p class="contador">
+            <span class="numero">{{ passo() }}</span>
+            <span class="suave"> de {{ total() }}</span>
+          </p>
+          <h1 class="pergunta" [id]="'pergunta-' + p.id">
+            {{ p.titulo }}
+            @if (p.obrigatoria) {
+              <span class="obrigatoria" aria-hidden="true">*</span><span class="sr-only">(obrigatória)</span>
+            }
+          </h1>
+
+          @switch (p.tipo) {
+            @case ('texto') {
+              <input type="text" class="resposta" #campo placeholder="Digite sua resposta…"
+                [attr.aria-labelledby]="'pergunta-' + p.id" [attr.aria-describedby]="'erro-' + p.id"
+                [attr.aria-required]="p.obrigatoria" [attr.aria-invalid]="faltaResponder()"
+                [value]="texto(p)" (input)="definir(p, campo.value)" />
+            }
+            @case ('paragrafo') {
+              <textarea class="resposta" rows="3" #campo placeholder="Digite sua resposta…"
+                [attr.aria-labelledby]="'pergunta-' + p.id" [attr.aria-describedby]="'erro-' + p.id"
+                [attr.aria-required]="p.obrigatoria" [attr.aria-invalid]="faltaResponder()"
+                [value]="texto(p)" (input)="definir(p, campo.value)"></textarea>
+            }
+            @case ('multipla') {
+              <div class="opcoes" role="radiogroup" [attr.aria-labelledby]="'pergunta-' + p.id"
+                [attr.aria-describedby]="'erro-' + p.id" [attr.aria-required]="p.obrigatoria">
+                @for (opcao of p.opcoes; track opcao; let i = $index) {
+                  <label class="opcao" [class.marcada]="texto(p) === opcao">
+                    <input type="radio" class="sr-only" [name]="p.id" [value]="opcao"
+                      [checked]="texto(p) === opcao" (change)="escolher(p, opcao)" />
+                    <span class="letra" aria-hidden="true">{{ letras[i] }}</span>
+                    <span class="texto-opcao">{{ opcao }}</span>
+                    <span class="visto" aria-hidden="true">✓</span>
+                  </label>
+                }
+              </div>
+            }
+            @case ('caixas') {
+              <div class="opcoes" role="group" [attr.aria-labelledby]="'pergunta-' + p.id"
+                [attr.aria-describedby]="'erro-' + p.id">
+                @for (opcao of p.opcoes; track opcao; let i = $index) {
+                  <label class="opcao" [class.marcada]="marcada(p, opcao)">
+                    <input type="checkbox" class="sr-only" [checked]="marcada(p, opcao)" (change)="escolher(p, opcao)" />
+                    <span class="letra" aria-hidden="true">{{ letras[i] }}</span>
+                    <span class="texto-opcao">{{ opcao }}</span>
+                    <span class="visto" aria-hidden="true">✓</span>
+                  </label>
+                }
+              </div>
+            }
+          }
+
+          <p class="erro" [id]="'erro-' + p.id" aria-live="polite">
+            @if (faltaResponder()) {
+              Esta pergunta é obrigatória.
+            } @else if (erroEnvio(); as mensagem) {
+              Não foi possível enviar. {{ mensagem }}
+            }
+          </p>
+
+          <div class="navegacao">
+            <button type="button" class="btn grande" [disabled]="enviando()" (click)="avancar()">
+              {{ ultima() ? 'Enviar' : 'OK' }} <span aria-hidden="true">{{ ultima() ? '✓' : '↵' }}</span>
+            </button>
+            <span class="dica suave">{{ dica(p) }}</span>
+          </div>
+
+          @if (passo() > 1) {
+            <button type="button" class="btn-link voltar" (click)="voltar()">↑ Pergunta anterior</button>
+          }
+        </section>
+      }
+    }
+  } @else if (carregando()) {
+    <p class="suave" role="status">Carregando…</p>
+  } @else if (erroConexao(); as mensagem) {
+    <section class="etapa centro">
+      <h1>Sem conexão</h1>
+      <p class="suave">{{ mensagem }}</p>
+    </section>
+  } @else {
+    <section class="etapa centro">
+      <h1>Formulário não encontrado</h1>
+      <p class="suave">Ele pode ter sido excluído ou o link está errado.</p>
+      <a class="btn btn-sec" routerLink="/">Ir para o painel</a>
+    </section>
+  }
+</main>

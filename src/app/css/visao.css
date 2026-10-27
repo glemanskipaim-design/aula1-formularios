@@ -1,0 +1,138 @@
+:host {
+  display: block;
+  max-width: 760px;
+}
+
+.descricao {
+  margin: -1rem 0 1.5rem;
+  white-space: pre-line;
+}
+
+section {
+  margin-top: 2.5rem;
+}
+
+h2 {
+  margin-bottom: 0.9rem;
+  font-size: 1rem;
+}
+
+.numeros {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin: 0;
+}
+
+.numeros div {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  background: var(--cor-superficie);
+}
+
+dt {
+  color: var(--cor-texto-suave);
+  font-size: 0.8rem;
+}
+
+dd {
+  margin: 0.2rem 0 0;
+  font-size: 1.9rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+dd.menor {
+  font-size: 1.1rem;
+  line-height: 2.85rem;
+}
+
+.grafico {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.grafico li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.total {
+  color: var(--cor-texto-suave);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.coluna {
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  max-width: 2.5rem;
+  height: 96px;
+  border-radius: 6px;
+  background: var(--cor-superficie-2);
+  overflow: hidden;
+}
+
+.barra {
+  display: block;
+  width: 100%;
+  min-height: 2px;
+  border-radius: 6px 6px 0 0;
+  background: var(--cor-acento);
+  transition: height 0.3s;
+}
+
+.dia {
+  color: var(--cor-texto-suave);
+  font-size: 0.8rem;
+}
+
+.compartilhar {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.compartilhar input {
+  flex: 1;
+  color: var(--cor-texto-suave);
+}
+
+.nota {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+}
+
+.perguntas {
+  margin: 0;
+  padding-left: 1.4rem;
+}
+
+.perguntas li {
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.perguntas li::marker {
+  color: var(--cor-texto-suave);
+  font-size: 0.875rem;
+}
+
+.titulo {
+  display: block;
+}
+
+.tipo {
+  font-size: 0.825rem;
+}
+
+.zona-perigo p {
+  margin: 0 0 0.75rem;
+}

@@ -1,0 +1,35 @@
+<div class="inicio">
+  <h1>Visão geral</h1>
+  <p class="suave">Escolha um formulário na lateral ou crie um novo.</p>
+
+  <dl class="numeros">
+    <div>
+      <dt>Formulários</dt>
+      <dd>{{ servico.formularios().length }}</dd>
+    </div>
+    <div>
+      <dt>Respostas</dt>
+      <dd>{{ servico.respostas().length }}</dd>
+    </div>
+    <div>
+      <dt>Hoje</dt>
+      <dd>{{ respostasHoje() }}</dd>
+    </div>
+  </dl>
+
+  <h2>Respostas recentes</h2>
+  @if (recentes().length > 0) {
+    <ul class="recentes">
+      @for (item of recentes(); track item.id) {
+        <li>
+          <a [routerLink]="['/f', item.formularioId, 'respostas']">{{ item.titulo }}</a>
+          <span class="suave">{{ item.enviadaEm | date: 'dd/MM · HH:mm' }}</span>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="suave">Nenhuma resposta ainda. Abra um formulário e compartilhe o link.</p>
+  }
+
+  <a class="btn" routerLink="/novo">+ Criar formulário</a>
+</div>

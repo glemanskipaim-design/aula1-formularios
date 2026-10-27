@@ -1,0 +1,41 @@
+<div class="layout">
+  <aside class="lateral">
+    <div class="lateral-topo">
+      <a class="marca" routerLink="/">formulários<span aria-hidden="true">.</span></a>
+      <a class="btn" routerLink="/novo">+ Novo</a>
+    </div>
+
+    <nav aria-label="Seus formulários">
+      <p class="rotulo-secao">Seus formulários</p>
+      <ul class="lista">
+        @for (formulario of formularios(); track formulario.id) {
+          <li>
+            <a [routerLink]="['/f', formulario.id]" routerLinkActive="ativo" ariaCurrentWhenActive="page">
+              <span class="ponto" aria-hidden="true"></span>
+              <span class="nome">{{ formulario.titulo }}</span>
+              <span class="contagem">
+                {{ servico.respostasDe(formulario.id).length }}<span class="sr-only"> respostas</span>
+              </span>
+            </a>
+          </li>
+        } @empty {
+          <li class="lista-vazia suave">Nenhum formulário ainda.</li>
+        }
+      </ul>
+    </nav>
+
+    <div class="lateral-rodape">
+      <a routerLink="/contato" routerLinkActive="ativo" ariaCurrentWhenActive="page">Questionário de contato</a>
+    </div>
+  </aside>
+
+  <main class="conteudo">
+    @if (servico.erroConexao(); as mensagem) {
+      <div class="aviso" role="alert">
+        <span>{{ mensagem }}</span>
+        <button type="button" class="btn btn-sec" (click)="servico.recarregar()">Tentar de novo</button>
+      </div>
+    }
+    <router-outlet />
+  </main>
+</div>

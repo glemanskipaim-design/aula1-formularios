@@ -1,0 +1,25 @@
+@if (formulario(); as f) {
+  <header class="cabecalho">
+    <h1>{{ f.titulo }}</h1>
+    <a class="btn" [routerLink]="['/responder', f.id]" target="_blank" rel="noopener">
+      Abrir formulário <span aria-hidden="true">↗</span><span class="sr-only">(abre em nova aba)</span>
+    </a>
+  </header>
+
+  <nav class="abas" aria-label="Seções do formulário">
+    <a [routerLink]="['/f', f.id]" routerLinkActive="ativa" [routerLinkActiveOptions]="{ exact: true }"
+      ariaCurrentWhenActive="page">Visão geral</a>
+    <a [routerLink]="['/f', f.id, 'editar']" routerLinkActive="ativa" ariaCurrentWhenActive="page">Editar</a>
+    <a [routerLink]="['/f', f.id, 'respostas']" routerLinkActive="ativa" ariaCurrentWhenActive="page">
+      Respostas <span class="selo">{{ totalRespostas() }}</span>
+    </a>
+  </nav>
+
+  <router-outlet />
+} @else if (servico.carregando()) {
+  <p class="suave" role="status">Carregando…</p>
+} @else {
+  <h1>Formulário não encontrado</h1>
+  <p class="suave">Ele pode ter sido excluído.</p>
+  <a class="btn btn-sec" routerLink="/">Voltar ao painel</a>
+}

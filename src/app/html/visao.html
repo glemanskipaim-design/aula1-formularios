@@ -1,0 +1,79 @@
+@if (formulario(); as f) {
+  @if (f.descricao) {
+    <p class="descricao suave">{{ f.descricao }}</p>
+  }
+
+  <dl class="numeros">
+    <div>
+      <dt>Respostas</dt>
+      <dd>{{ respostas().length }}</dd>
+    </div>
+    <div>
+      <dt>Hoje</dt>
+      <dd>{{ ultimosDias().at(-1)?.total ?? 0 }}</dd>
+    </div>
+    <div>
+      <dt>Perguntas</dt>
+      <dd>{{ f.perguntas.length }}</dd>
+    </div>
+    <div>
+      <dt>Última resposta</dt>
+      <dd class="menor">{{ ultimaResposta() ? (ultimaResposta() | date: 'dd/MM · HH:mm') : '—' }}</dd>
+    </div>
+  </dl>
+
+  <section>
+    <h2>Últimos 7 dias</h2>
+    <ol class="grafico">
+      @for (dia of ultimosDias(); track $index) {
+        <li>
+          <span class="total">{{ dia.total }}</span>
+          <span class="coluna" aria-hidden="true">
+            <span class="barra" [style.height.%]="(dia.total / maiorDia()) * 100"></span>
+          </span>
+          <span class="dia">{{ dia.rotulo }}<span class="sr-only">: {{ dia.total }} resposta(s)</span></span>
+        </li>
+      }
+    </ol>
+  </section>
+
+  <section>
+    <h2>Compartilhar</h2>
+    <div class="compartilhar">
+      <input type="text" readonly aria-label="Link do formulário" [value]="link()" />
+      <button type="button" class="btn btn-sec" (click)="copiarLink()">
+        {{ copiado() ? 'Copiado ✓' : 'Copiar link' }}
+      </button>
+    </div>
+    <p class="suave nota">Quem abrir o link responde uma pergunta por vez; as respostas vão para a API e aparecem aqui.</p>
+  </section>
+
+  <section>
+    <h2>Perguntas</h2>
+    <ol class="perguntas">
+      @for (pergunta of f.perguntas; track pergunta.id) {
+        <li>
+          <span class="titulo">{{ pergunta.titulo }}</span>
+          <span class="suave tipo">
+            {{ rotuloTipo(pergunta.tipo) }}@if (pergunta.obrigatoria) { · obrigatória }
+          </span>
+        </li>
+      }
+    </ol>
+  </section>
+
+  <section class="zona-perigo">
+    @if (confirmandoExclusao()) {
+      <p>Excluir “{{ f.titulo }}” e as {{ respostas().length }} resposta(s)? Isso não pode ser desfeito.</p>
+      <div class="acoes">
+        <button type="button" class="btn btn-perigo" (click)="excluir()">Excluir de vez</button>
+        <button type="button" class="btn btn-sec" (click)="confirmandoExclusao.set(false)">Cancelar</button>
+      </div>
+      @if (erroExclusao(); as mensagem) {
+        <p class="erro" role="alert">{{ mensagem }}</p>
+      }
+    } @else {
+      <button type="button" class="btn-link perigo" (click)="confirmandoExclusao.set(true)">Excluir formulário</button>
+    }
+  </section>
+}

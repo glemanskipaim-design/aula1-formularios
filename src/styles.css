@@ -1,1 +1,241 @@
-/* You can add global styles to this file, and also import other style files */
+/* Tema: neutro com um único acento; acompanha o claro/escuro do sistema. */
+:root {
+  color-scheme: light dark;
+  --cor-fundo: #fafafa;
+  --cor-superficie: #fff;
+  --cor-superficie-2: #f4f4f5;
+  --cor-texto: #18181b;
+  --cor-texto-suave: #52525b;
+  --cor-borda: #e4e4e7;
+  --cor-acento: #0f766e;
+  --cor-acento-hover: #115e59;
+  --cor-acento-suave: #ccfbf1;
+  --cor-sobre-acento: #fff;
+  --cor-erro: #b42318;
+  --raio: 10px;
+  --fonte: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cor-fundo: #0e0e10;
+    --cor-superficie: #17171a;
+    --cor-superficie-2: #202024;
+    --cor-texto: #f4f4f5;
+    --cor-texto-suave: #a1a1aa;
+    --cor-borda: #2a2a2e;
+    --cor-acento: #2dd4bf;
+    --cor-acento-hover: #5eead4;
+    --cor-acento-suave: #123b37;
+    --cor-sobre-acento: #04211d;
+    --cor-erro: #f97066;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fonte);
+  line-height: 1.5;
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: var(--cor-acento);
+}
+
+.suave {
+  color: var(--cor-texto-suave);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+kbd {
+  padding: 0.05rem 0.35rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: 4px;
+  background: var(--cor-superficie-2);
+  font: inherit;
+  font-size: 0.8em;
+}
+
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.9rem;
+}
+
+.campo label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cor-texto-suave);
+}
+
+input[type='text'],
+input[type='email'],
+input[type='tel'],
+textarea,
+select {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  background: var(--cor-superficie);
+  color: inherit;
+  font: inherit;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  border-color: var(--cor-acento);
+  box-shadow: 0 0 0 3px var(--cor-acento-suave);
+}
+
+button:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--cor-acento);
+  outline-offset: 2px;
+}
+
+input[aria-invalid='true'],
+textarea[aria-invalid='true'] {
+  border-color: var(--cor-erro);
+}
+
+.erro {
+  min-height: 1.3em;
+  margin: 0.4rem 0 0;
+  color: var(--cor-erro);
+  font-size: 0.875rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--cor-acento);
+  border-radius: 8px;
+  background: var(--cor-acento);
+  color: var(--cor-sobre-acento);
+  font: inherit;
+  font-size: 0.925rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn:hover {
+  border-color: var(--cor-acento-hover);
+  background: var(--cor-acento-hover);
+}
+
+.btn-sec {
+  border-color: var(--cor-borda);
+  background: transparent;
+  color: var(--cor-texto);
+}
+
+.btn-sec:hover {
+  border-color: var(--cor-borda);
+  background: var(--cor-superficie-2);
+}
+
+.btn-perigo {
+  border-color: var(--cor-erro);
+  background: var(--cor-erro);
+  color: #fff;
+}
+
+.btn-perigo:hover {
+  border-color: var(--cor-erro);
+  background: var(--cor-erro);
+  filter: brightness(1.1);
+}
+
+.btn-icone {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.4rem;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--cor-texto-suave);
+  font: inherit;
+  cursor: pointer;
+}
+
+.btn-icone:hover:not(:disabled) {
+  background: var(--cor-superficie-2);
+  color: var(--cor-texto);
+}
+
+.btn-icone:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.btn-link {
+  padding: 0.25rem 0;
+  border: none;
+  background: none;
+  color: var(--cor-acento);
+  font: inherit;
+  font-size: 0.925rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-link.perigo {
+  color: var(--cor-erro);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

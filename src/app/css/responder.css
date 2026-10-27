@@ -1,0 +1,213 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: var(--cor-fundo);
+}
+
+.progresso {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 1;
+  height: 4px;
+  background: var(--cor-superficie-2);
+}
+
+.progresso span {
+  display: block;
+  height: 100%;
+  background: var(--cor-acento);
+  transition: width 0.35s ease;
+}
+
+.tela {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 3rem 1.25rem;
+}
+
+.etapa {
+  width: 100%;
+  max-width: 640px;
+  animation: entrar 0.35s ease both;
+}
+
+.etapa:focus {
+  outline: none;
+}
+
+.centro {
+  text-align: center;
+}
+
+.centro .acoes {
+  justify-content: center;
+}
+
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.titulo-formulario {
+  font-size: clamp(1.9rem, 5vw, 2.6rem);
+}
+
+.descricao {
+  margin: 0.75rem 0 0;
+  font-size: 1.1rem;
+  white-space: pre-line;
+}
+
+.contador {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+}
+
+.numero {
+  color: var(--cor-acento);
+  font-weight: 700;
+}
+
+.pergunta {
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+  font-weight: 600;
+}
+
+.obrigatoria {
+  color: var(--cor-acento);
+}
+
+/* Resposta aberta: só uma linha embaixo, como escrever num caderno. */
+.resposta {
+  margin-top: 1.75rem;
+  padding: 0.5rem 0;
+  border: none;
+  border-bottom: 2px solid var(--cor-borda);
+  border-radius: 0;
+  background: transparent;
+  font-size: 1.35rem;
+}
+
+.resposta:focus-visible {
+  border-bottom-color: var(--cor-acento);
+  box-shadow: none;
+}
+
+textarea.resposta {
+  resize: none;
+  field-sizing: content;
+  min-height: 3lh;
+}
+
+.opcoes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 420px;
+  margin-top: 1.75rem;
+}
+
+.opcao {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border: 1.5px solid var(--cor-borda);
+  border-radius: 8px;
+  background: var(--cor-superficie);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.opcao:hover {
+  border-color: var(--cor-acento);
+}
+
+.opcao:has(input:focus-visible) {
+  outline: 2px solid var(--cor-acento);
+  outline-offset: 2px;
+}
+
+.opcao.marcada {
+  border-color: var(--cor-acento);
+  background: var(--cor-acento-suave);
+}
+
+.letra {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.marcada .letra {
+  border-color: var(--cor-acento);
+  background: var(--cor-acento);
+  color: var(--cor-sobre-acento);
+}
+
+.texto-opcao {
+  flex: 1;
+}
+
+.visto {
+  color: var(--cor-acento);
+  font-weight: 700;
+  opacity: 0;
+}
+
+.marcada .visto {
+  opacity: 1;
+}
+
+.navegacao {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn.grande {
+  padding: 0.65rem 1.4rem;
+  font-size: 1.05rem;
+}
+
+.dica {
+  font-size: 0.85rem;
+}
+
+.voltar {
+  margin-top: 2.5rem;
+  color: var(--cor-texto-suave);
+  font-weight: 500;
+}
+
+.selo-ok {
+  display: inline-grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  background: var(--cor-acento-suave);
+  color: var(--cor-acento);
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.centro p {
+  margin: 0.5rem 0 1.5rem;
+}

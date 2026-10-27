@@ -1,0 +1,62 @@
+<section class="cartao">
+  <h1>Questionário</h1>
+  <p class="subtitulo">Preencha seus dados de contato.</p>
+
+  <form (submit)="enviar($event)" novalidate>
+    <div class="campo">
+      <label for="nome">Nome</label>
+      <input id="nome" type="text" autocomplete="name" [formField]="contatoForm.nome"
+        [attr.aria-invalid]="contatoForm.nome().touched() && contatoForm.nome().invalid()"
+        aria-describedby="nome-erro" />
+      <div id="nome-erro" class="erro" aria-live="polite">
+        @if (contatoForm.nome().touched()) {
+          @for (erro of contatoForm.nome().errors(); track erro.kind) {
+            <span>{{ erro.message }}</span>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="campo">
+      <label for="email">E-mail</label>
+      <input id="email" type="email" autocomplete="email" [formField]="contatoForm.email"
+        [attr.aria-invalid]="contatoForm.email().touched() && contatoForm.email().invalid()"
+        aria-describedby="email-erro" />
+      <div id="email-erro" class="erro" aria-live="polite">
+        @if (contatoForm.email().touched()) {
+          @for (erro of contatoForm.email().errors(); track erro.kind) {
+            <span>{{ erro.message }}</span>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="campo">
+      <label for="telefone">Telefone</label>
+      <input id="telefone" type="tel" autocomplete="tel" placeholder="(11) 91234-5678"
+        [formField]="contatoForm.telefone"
+        [attr.aria-invalid]="contatoForm.telefone().touched() && contatoForm.telefone().invalid()"
+        aria-describedby="telefone-erro" />
+      <div id="telefone-erro" class="erro" aria-live="polite">
+        @if (contatoForm.telefone().touched()) {
+          @for (erro of contatoForm.telefone().errors(); track erro.kind) {
+            <span>{{ erro.message }}</span>
+          }
+        }
+      </div>
+    </div>
+
+    <button type="submit">Enviar</button>
+  </form>
+
+  @if (enviado(); as dados) {
+    <section class="resultado" aria-live="polite">
+      <h2>Dados recebidos</h2>
+      <dl>
+        <dt>Nome</dt><dd>{{ dados.nome }}</dd>
+        <dt>E-mail</dt><dd>{{ dados.email }}</dd>
+        <dt>Telefone</dt><dd>{{ dados.telefone }}</dd>
+      </dl>
+    </section>
+  }
+</section>

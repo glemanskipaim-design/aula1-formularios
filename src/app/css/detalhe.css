@@ -1,0 +1,48 @@
+.cabecalho {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+h1 {
+  font-size: 1.75rem;
+}
+
+.abas {
+  display: flex;
+  gap: 1.5rem;
+  margin: 1.25rem 0 2rem;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.abas a {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: -1px;
+  padding: 0.6rem 0;
+  border-bottom: 2px solid transparent;
+  color: var(--cor-texto-suave);
+  font-size: 0.925rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.abas a:hover {
+  color: var(--cor-texto);
+}
+
+.abas a.ativa {
+  border-bottom-color: var(--cor-acento);
+  color: var(--cor-texto);
+}
+
+.selo {
+  padding: 0 0.45rem;
+  border-radius: 999px;
+  background: var(--cor-superficie-2);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}

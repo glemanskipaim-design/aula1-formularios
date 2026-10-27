@@ -1,0 +1,113 @@
+:host {
+  display: block;
+  max-width: 900px;
+}
+
+section + section {
+  margin-top: 3rem;
+}
+
+h2 {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+h3 {
+  font-size: 0.975rem;
+  font-weight: 600;
+}
+
+.vazio p {
+  margin: 0 0 0.25rem;
+}
+
+.item {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.contagem {
+  margin: 0.15rem 0 0.75rem;
+  font-size: 0.825rem;
+}
+
+.barras,
+.textos {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.barras li {
+  margin-bottom: 0.6rem;
+}
+
+.rotulos {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.trilho {
+  display: block;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--cor-superficie-2);
+  overflow: hidden;
+}
+
+.barra {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--cor-acento);
+}
+
+.textos li {
+  padding: 0.45rem 0 0.45rem 0.75rem;
+  border-left: 2px solid var(--cor-borda);
+  font-size: 0.925rem;
+}
+
+.textos li + li {
+  margin-top: 0.35rem;
+}
+
+.tabela-rolavel {
+  overflow-x: auto;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  background: var(--cor-superficie);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+th,
+td {
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--cor-borda);
+  text-align: left;
+  vertical-align: top;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+th {
+  color: var(--cor-texto-suave);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.data {
+  color: var(--cor-texto-suave);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}

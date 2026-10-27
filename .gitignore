@@ -42,3 +42,7 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Dados da API (criado na primeira execução de npm run api)
+/server/db.json
+/server/db.json.tmp

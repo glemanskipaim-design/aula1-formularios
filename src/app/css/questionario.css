@@ -1,0 +1,61 @@
+:host {
+  display: block;
+  max-width: 420px;
+}
+
+h1 {
+  font-size: 1.75rem;
+}
+
+.subtitulo {
+  margin: 0.25rem 0 1.5rem;
+  color: var(--cor-texto-suave);
+}
+
+.campo .erro {
+  margin: 0;
+}
+
+button {
+  width: 100%;
+  padding: 0.65rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--cor-acento);
+  color: var(--cor-sobre-acento);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--cor-acento-hover);
+}
+
+.resultado {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  background: var(--cor-acento-suave);
+}
+
+.resultado h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 1rem;
+  margin: 0;
+}
+
+dt {
+  font-weight: 600;
+}
+
+dd {
+  margin: 0;
+}

@@ -1,59 +1,84 @@
-# Aula1
+# Formulários — Aula 1
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.4.
+App para **criar formulários, respondê-los e ver as respostas**, feito com **Angular 22** no front e uma API **Node + Express** que guarda os dados em **JSON**.
 
-## Development server
+- **Painel** com a lista de formulários na lateral e abas *Visão geral*, *Editar* e *Respostas*.
+- **Responder** no estilo conversa: uma pergunta por vez, com navegação por teclado (Enter avança, A–Z escolhe opções).
+- 4 tipos de pergunta: resposta curta, parágrafo, múltipla escolha e caixas de seleção, com perguntas obrigatórias.
+- Resumo das respostas com percentuais e tabela completa.
+- Tema claro/escuro automático (segue o sistema).
 
-To start a local development server, run:
+## Como rodar
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Pré-requisito: **Node.js 24** ou mais novo.
 
 ```bash
-ng generate component component-name
+npm install
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Abra **http://localhost:4200**.
+
+O `npm start` sobe juntos:
+
+| Processo | Endereço | O que é |
+|---|---|---|
+| `api` | http://localhost:3000/api | API Node/Express (pasta `server/`) |
+| `web` | http://localhost:4200 | Angular (`ng serve`) |
+
+O navegador só fala com a porta 4200: o `ng serve` repassa tudo que começa com `/api` para a API ([proxy.conf.json](proxy.conf.json)).
+Os dados ficam em `server/db.json`, criado na primeira execução com um formulário de exemplo.
+
+## Testes
 
 ```bash
-ng generate --help
+npm test          # front-end (Vitest)
+npm run test:api  # API (node:test, sobe o servidor com um db.json temporário)
 ```
 
-## Building
+## Organização das pastas
 
-To build the project run:
-
-```bash
-ng build
+```
+src/
+├─ index.html, main.ts, styles.css   página base, inicialização e estilos globais (tema)
+└─ app/
+   ├─ html/   templates de cada tela
+   ├─ css/    estilos de cada tela
+   └─ ts/     componentes, rotas, serviços, modelo e testes (*.spec.ts)
+server/
+├─ server.ts      ponto de entrada da API (porta 3000)
+├─ app.ts         rotas REST
+├─ banco.ts       leitura/gravação do db.json
+├─ validacao.ts   validação do corpo das requisições
+└─ api.test.ts    testes de integração da API
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Cada tela tem o mesmo nome nas três pastas — por exemplo, o editor é `ts/editor.ts` + `html/editor.html` + `css/editor.css`:
 
-## Running unit tests
+| Tela | Arquivo base |
+|---|---|
+| Moldura do painel (lateral) | `painel` |
+| Início do painel | `inicio` |
+| Cabeçalho e abas do formulário | `detalhe` |
+| Aba Visão geral | `visao` |
+| Aba Editar / Novo formulário | `editor` |
+| Aba Respostas | `respostas` |
+| Responder (uma pergunta por vez) | `responder` |
+| Questionário de contato | `questionario` |
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Fora das telas, em `ts/`: `formulario.model.ts` (tipos e regras, usado também pela API), `formularios.api.ts` (chamadas HTTP) e `formularios.service.ts` (estado em signals).
 
-```bash
-ng test
-```
+## API
 
-## Running end-to-end tests
+| Método | Rota | Resposta |
+|---|---|---|
+| GET | `/api/formularios` | 200 lista de formulários |
+| GET | `/api/formularios/:id` | 200 formulário · 404 |
+| PUT | `/api/formularios/:id` | 201 criado · 200 atualizado · 422 inválido |
+| DELETE | `/api/formularios/:id` | 204 (apaga também as respostas) · 404 |
+| GET | `/api/formularios/:id/respostas` | 200 respostas do formulário · 404 |
+| POST | `/api/formularios/:id/respostas` | 201 resposta · 404 · 422 inválida |
+| GET | `/api/respostas` | 200 todas as respostas |
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Erros sempre no formato `{ "error": { "code": "...", "message": "...", "details": ... } }`.
+O servidor valida tudo de novo com as mesmas regras do front (`formulario.model.ts`) — o Node 24 executa os arquivos `.ts` diretamente.

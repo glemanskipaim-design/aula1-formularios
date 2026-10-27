@@ -1,0 +1,103 @@
+<div class="editor">
+  @if (!id()) {
+    <p class="rotulo-pagina suave">Novo formulário</p>
+  }
+
+  <div class="cabecalho">
+    <label for="titulo-formulario" class="sr-only">Título do formulário</label>
+    <input id="titulo-formulario" type="text" class="titulo-grande" placeholder="Título do formulário" #titulo
+      [value]="rascunho().titulo" (input)="definirTitulo(titulo.value)" />
+    <label for="descricao-formulario" class="sr-only">Descrição (opcional)</label>
+    <textarea id="descricao-formulario" rows="1" class="descricao" placeholder="Descrição (opcional)" #descricao
+      [value]="rascunho().descricao" (input)="definirDescricao(descricao.value)"></textarea>
+  </div>
+
+  <ol class="perguntas">
+    @for (pergunta of rascunho().perguntas; track pergunta.id; let i = $index, primeira = $first, ultima = $last) {
+      <li class="pergunta">
+        <span class="numero" aria-hidden="true">{{ i + 1 }}</span>
+
+        <div class="corpo">
+          <div class="linha">
+            <label [for]="'titulo-' + pergunta.id" class="sr-only">Pergunta {{ i + 1 }}</label>
+            <input [id]="'titulo-' + pergunta.id" type="text" class="titulo-pergunta" placeholder="Escreva a pergunta"
+              #tituloPergunta [value]="pergunta.titulo"
+              (input)="alterarPergunta(pergunta.id, { titulo: tituloPergunta.value })" />
+            <label [for]="'tipo-' + pergunta.id" class="sr-only">Tipo da pergunta {{ i + 1 }}</label>
+            <select [id]="'tipo-' + pergunta.id" class="tipo" #tipo (change)="alterarTipo(pergunta, tipo.value)">
+              @for (opcaoTipo of tipos; track opcaoTipo.valor) {
+                <option [value]="opcaoTipo.valor" [selected]="opcaoTipo.valor === pergunta.tipo">
+                  {{ opcaoTipo.rotulo }}
+                </option>
+              }
+            </select>
+          </div>
+
+          @if (temOpcoes(pergunta.tipo)) {
+            <ul class="opcoes">
+              @for (opcao of pergunta.opcoes; track $index; let j = $index) {
+                <li>
+                  <span class="marcador" [class.quadrado]="pergunta.tipo === 'caixas'" aria-hidden="true"></span>
+                  <input type="text" #textoOpcao [value]="opcao"
+                    [attr.aria-label]="'Opção ' + (j + 1) + ' da pergunta ' + (i + 1)"
+                    (input)="alterarOpcao(pergunta, j, textoOpcao.value)" />
+                  <button type="button" class="btn-icone" [disabled]="pergunta.opcoes.length <= 1"
+                    [attr.aria-label]="'Remover opção ' + (j + 1) + ' da pergunta ' + (i + 1)"
+                    (click)="removerOpcao(pergunta, j)">✕</button>
+                </li>
+              }
+            </ul>
+            @if (pergunta.opcoes.length < maxOpcoes) {
+          <button type="button" class="btn-link" (click)="adicionarOpcao(pergunta)">+ Adicionar opção</button>
+        }
+          } @else {
+            <p class="previa suave">{{ pergunta.tipo === 'texto' ? 'Resposta curta' : 'Resposta longa' }}</p>
+          }
+
+          <div class="rodape">
+            <label class="interruptor">
+              <input type="checkbox" role="switch" #obrigatoria [checked]="pergunta.obrigatoria"
+                (change)="alterarPergunta(pergunta.id, { obrigatoria: obrigatoria.checked })" />
+              Obrigatória
+            </label>
+            <div class="ferramentas">
+              <button type="button" class="btn-icone" [disabled]="primeira"
+                [attr.aria-label]="'Mover pergunta ' + (i + 1) + ' para cima'" (click)="moverPergunta(i, -1)">↑</button>
+              <button type="button" class="btn-icone" [disabled]="ultima"
+                [attr.aria-label]="'Mover pergunta ' + (i + 1) + ' para baixo'" (click)="moverPergunta(i, 1)">↓</button>
+              <button type="button" class="btn-icone" [attr.aria-label]="'Remover pergunta ' + (i + 1)"
+                (click)="removerPergunta(pergunta.id)">🗑</button>
+            </div>
+          </div>
+        </div>
+      </li>
+    }
+  </ol>
+
+  <button type="button" class="adicionar" (click)="adicionarPergunta()">+ Adicionar pergunta</button>
+
+  <div aria-live="polite">
+    @if (tentouSalvar() && erros().length > 0) {
+      <div class="alerta">
+        <p><strong>Falta pouco:</strong></p>
+        <ul>
+          @for (erro of erros(); track erro) {
+            <li>{{ erro }}</li>
+          }
+        </ul>
+      </div>
+    }
+    @if (erroServidor(); as mensagem) {
+      <div class="alerta" role="alert">
+        <p><strong>Não foi possível salvar.</strong> {{ mensagem }}</p>
+      </div>
+    }
+  </div>
+
+  <div class="barra-salvar">
+    <button type="button" class="btn" [disabled]="salvando()" (click)="salvar()">
+      {{ salvando() ? 'Salvando…' : 'Salvar formulário' }}
+    </button>
+    <a class="btn btn-sec" [routerLink]="destinoCancelar()">Cancelar</a>
+  </div>
+</div>
